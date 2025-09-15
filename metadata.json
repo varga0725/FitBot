@@ -1,5 +1,7 @@
 {
   "name": "FitBot: Személyre szabott edzésterv és motivációs partner",
   "description": "Egy alkalmazás, amely személyre szabott edzésterveket generál a felhasználó céljai, eszközei és fittségi szintje alapján, és egy AI chatbot segítségével folyamatosan motiválja a felhasználót.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [
+    "microphone"
+  ]
 }
