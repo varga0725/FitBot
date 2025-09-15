@@ -13,7 +13,7 @@ Vercel is an excellent platform for deploying modern frontend applications like 
 
 ### Step 1: Push Your Project to a Git Repository
 
-If you haven't already, make sure your local FitBot project is pushed to a remote repository on GitHub, GitLab, or Bitbucket.
+If you haven't already, make sure your local FitBot project, including the new `vercel-build.sh` file, is pushed to a remote repository on GitHub, GitLab, or Bitbucket.
 
 ### Step 2: Import Project on Vercel
 
@@ -23,27 +23,33 @@ If you haven't already, make sure your local FitBot project is pushed to a remot
 
 ### Step 3: Configure Your Project
 
-Vercel will automatically analyze your project. You need to configure the environment variable for the Gemini API.
+Vercel will try to automatically detect your project settings. You need to override them to correctly run our build script and inject the API key.
 
-1.  **Framework Preset:** Vercel will likely detect this as a **Vite** project, which is a suitable configuration. You can leave this as is.
+1.  **Framework Preset:** In the "Build and Output Settings" section, set the **Framework Preset** to **"Other"**.
 
-2.  **Build and Output Settings:** The default settings should work correctly as Vercel's static site hosting is robust. The project doesn't have a build step, so you can leave these settings as their defaults.
+2.  **Build Command:**
+    *   Turn on the "Override" switch next to the **Build Command**.
+    *   Enter the following command: `bash vercel-build.sh`
 
-3.  **Environment Variables (Crucial Step):**
-    This is the most important step. You must provide your Google Gemini API key here to make it securely available to the application.
+3.  **Output Directory:**
+    *   Turn on the "Override" switch next to the **Output Directory**.
+    *   Leave the text box empty. Vercel will serve the files from the root directory.
+
+4.  **Environment Variables (Crucial Step):**
+    This is the most important step. You must provide your Google Gemini API key here to make it securely available to the build script.
 
     *   Expand the **"Environment Variables"** section.
     *   Add a new variable with the following details:
         *   **Name:** `API_KEY`
         *   **Value:** Paste your Google Gemini API key here (it usually starts with `AIza...`).
 
-    Ensure the name is exactly `API_KEY` as this is what the application code expects (`process.env.API_KEY`). Vercel automatically makes these variables available under `process.env`.
+    Ensure the name is exactly `API_KEY` as this is what the application code expects (`process.env.API_KEY`).
 
 ### Step 4: Deploy
 
 Once the environment variable is set, click the **"Deploy"** button.
 
-Vercel will now start the deployment process. It will clone your repository, apply the environment variable, and deploy your site to its global CDN.
+Vercel will now start the deployment process. It will clone your repository, run the `vercel-build.sh` script (which creates `env.js`), apply the environment variable, and deploy your site to its global CDN.
 
 ### Step 5: All Done!
 
